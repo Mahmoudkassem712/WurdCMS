@@ -12,7 +12,8 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 namespace Piranha.Data.EF.SQLServer;
 
 /// <summary>
@@ -29,9 +30,18 @@ public class DbFactory : IDesignTimeDbContextFactory<SQLServerDb>
     /// <returns>The db context</returns>
     public SQLServerDb CreateDbContext(string[] args)
     {
-        var builder = new DbContextOptionsBuilder<SQLServerDb>();
-        builder.UseSqlServer("data source=.\\sqlexpress;initial catalog=piranha.dev;integrated security=true;multipleactiveresultsets=true;");
-        return new SQLServerDb(builder.Options);
+        //var builder = new DbContextOptionsBuilder<SQLServerDb>();
+        //builder.UseSqlServer("data source=.;initial catalog=piranha.dev;integrated security=true;multipleactiveresultsets=true;");
+        //return new SQLServerDb(builder.Options);
+
+        var config = new ConfigurationBuilder()
+     .AddJsonFile("appsettings.json")
+     .Build();
+        var optionsBuilder = new DbContextOptionsBuilder<Piranha.Data.EF.SQLServer.SQLServerDb>();
+
+        optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+
+        return new Piranha.Data.EF.SQLServer.SQLServerDb(optionsBuilder.Options);
     }
 }
 #endif

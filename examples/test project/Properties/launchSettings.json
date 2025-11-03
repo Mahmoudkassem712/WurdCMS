@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "MyPiranhaSite": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:56248;http://localhost:56249"
+    }
+  }
+}

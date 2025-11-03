@@ -839,18 +839,10 @@ Vue.component("quote-block", {
   },
   methods: {
     onAuthorBlur: function (e) {
-      this.model.author.value = DOMPurify.sanitize(e.target.innerText, {
-        USE_PROFILES: {
-          html: true
-        }
-      });
+      this.model.author.value = e.target.innerText;
     },
     onBodyBlur: function (e) {
-      this.model.body.value = DOMPurify.sanitize(e.target.innerText, {
-        USE_PROFILES: {
-          html: true
-        }
-      }); // Tell parent that title has been updated
+      this.model.body.value = e.target.innerText; // Tell parent that title has been updated
 
       var title = this.model.body.value.replace(/(<([^>]+)>)/ig, "");
 
@@ -898,13 +890,6 @@ Vue.component("separator-block", {
 Vue.component("text-block", {
   props: ["uid", "model"],
   methods: {
-    onChange: function (e) {
-      this.model.body.value = DOMPurify.sanitize(e.target.value, {
-        USE_PROFILES: {
-          html: true
-        }
-      });
-    },
     onBlur: function (e) {
       // this.model.body.value = e.target.innerHTML;
       // Tell parent that title has been updated
@@ -925,7 +910,7 @@ Vue.component("text-block", {
       return piranha.utils.isEmptyText(this.model.body.value);
     }
   },
-  template: "\n<div class=\"block-body\" :class=\"{ empty: isEmpty }\">\n    <pre class=\"invisible\" v-html=\"model.body.value\"></pre>\n    <textarea v-text=\"model.body.value\" v-on:change=\"onChange\" v-on:blur=\"onBlur\"></textarea>\n</div>\n"
+  template: "\n<div class=\"block-body\" :class=\"{ empty: isEmpty }\">\n    <pre class=\"invisible\" v-html=\"model.body.value\"></pre>\n    <textarea v-model=\"model.body.value\" v-on:blur=\"onBlur\"></textarea>\n</div>\n"
 });
 Vue.component("video-block", {
   props: ["uid", "model"],
