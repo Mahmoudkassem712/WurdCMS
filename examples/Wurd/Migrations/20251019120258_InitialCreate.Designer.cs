@@ -9,7 +9,7 @@ using Piranha.Data.EF.SQLServer;
 
 #nullable disable
 
-namespace MyPiranhaSite.Migrations
+namespace Wurd.Migrations
 {
     [DbContext(typeof(SQLServerDb))]
     [Migration("20251019120258_InitialCreate")]

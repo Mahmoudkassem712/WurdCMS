@@ -42,7 +42,7 @@ builder.Services.AddAuthentication(options => {
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Piranha API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Wurd API", Version = "v1" });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -94,7 +94,7 @@ builder.AddPiranha(options =>
     options.UseEF<Piranha.Data.EF.SQLServer.SQLServerDb>(db =>
         db.UseSqlServer(
             builder.Configuration.GetConnectionString("DefaultConnection"),
-            b => b.MigrationsAssembly("MyPiranhaSite")
+            b => b.MigrationsAssembly("Wurd")
         ));
 
     options.UseIdentityWithSeed<IdentitySQLServerDb>(db =>
@@ -105,7 +105,7 @@ builder.AddPiranha(options =>
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Piranha API v1"));
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Wurd API v1"));
 
 using (var scope = app.Services.CreateScope())
 {

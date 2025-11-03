@@ -8,7 +8,7 @@ using Piranha.Data.EF.SQLServer;
 
 #nullable disable
 
-namespace MyPiranhaSite.Migrations
+namespace Wurd.Migrations
 {
     [DbContext(typeof(SQLServerDb))]
     partial class SQLServerDbModelSnapshot : ModelSnapshot

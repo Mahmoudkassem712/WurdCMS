@@ -2,9 +2,9 @@
 using Piranha;
 using Piranha.AspNetCore.Services;
 using Piranha.Models;
-using MyPiranhaSite.Models;
+using Wurd.Models;
 
-namespace MyPiranhaSite.Controllers;
+namespace Wurd.Controllers;
 
 [ApiExplorerSettings(IgnoreApi = true)]
 public class CmsController : Controller

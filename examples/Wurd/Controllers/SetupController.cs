@@ -4,9 +4,9 @@ using Piranha.Extend;
 using Piranha.Extend.Fields;
 using Piranha.Extend.Blocks;
 using Piranha.Models;
-using MyPiranhaSite.Models;
+using Wurd.Models;
 
-namespace MyPiranhaSite.Controllers;
+namespace Wurd.Controllers;
 
 /// <summary>
 /// This controller is only used when the project is first started

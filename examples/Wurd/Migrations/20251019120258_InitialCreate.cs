@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MyPiranhaSite.Migrations
+namespace Wurd.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

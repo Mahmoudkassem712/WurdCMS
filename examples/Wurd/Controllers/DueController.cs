@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using MyPiranhaSite.Models;
+using Wurd.Models;
 using Piranha;
 using Piranha.AspNetCore.Identity.Data;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Text;
 
 
-namespace MyPiranhaSite.Controllers
+namespace Wurd.Controllers
 {
 
     [ApiController]

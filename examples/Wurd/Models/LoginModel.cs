@@ -1,4 +1,4 @@
-﻿namespace MyPiranhaSite.Models
+﻿namespace Wurd.Models
 {
     public class LoginModel
     {
