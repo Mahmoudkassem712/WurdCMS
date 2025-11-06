@@ -8,6 +8,9 @@ using Piranha.AspNetCore.Identity.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Piranha.Manager.Services;
+using Piranha.Manager.Models;
+using Piranha.Models;
 
 
 namespace Wurd.Controllers
@@ -16,13 +19,16 @@ namespace Wurd.Controllers
     [ApiController]
     [Route("api/wurd/[controller]")]
     [Authorize]
-    public class DuaController : ControllerBase
+    public class CustimizeApiController : ControllerBase
     {
         private readonly IApi _api;
+        private readonly PageService _service;
 
-        public DuaController(IApi api)
+
+        public CustimizeApiController(IApi api, PageService service)
         {
             _api = api;
+            _service = service;
         }
 
         // GET: api/dua/slug/adeya
@@ -37,13 +43,27 @@ namespace Wurd.Controllers
             return Ok(page);
         }
 
-
-        // مثال: endpoint يحتاج دور معين (مثلاً SysAdmin)
-        [HttpGet("admin-only")]
-        [Authorize(Roles = "SysAdmin")]
-        public IActionResult AdminOnly()
+        [Route("sites-list")]
+        [HttpGet]
+        [Authorize]
+        public async Task<PageListModel> List()
         {
-            return Ok(new { message = "مرحبًا يا Admin! هذا محتوى سري" });
+            var model = await _service.GetList();
+            return model;
+        }
+
+        [HttpPost]
+        [Route("GetPagesByIds")]
+        public virtual async Task<IActionResult> GetByIds(List<Guid> ids)
+        {
+            var result = new List<PageBase>();
+            foreach (var id in ids)
+            {
+                result.Add(await _api.Pages.GetByIdAsync<PageBase>(id));
+            }
+
+            return Ok(result);
+
         }
     }
 }
