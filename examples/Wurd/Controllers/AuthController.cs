@@ -67,12 +67,21 @@ public class AuthController : ControllerBase
 
         try
         {
-            // 1.  verify idToken from Google
-            var payload = await GoogleJsonWebSignature.ValidateAsync(model.IdToken);
 
-            var email = payload.Email;
-            var googleId = payload.Subject;
-            var name = payload.Name;
+            var handler = new JwtSecurityTokenHandler();
+
+            var jwtToken = handler.ReadJwtToken(model.IdToken);
+            
+
+            // 1.  verify idToken from Google
+            //var settings = new GoogleJsonWebSignature.ValidationSettings
+            //{
+            //    Audience = new[] { "13629534461-9o99ro3077e5s8djeq1r707o6bvl419j.apps.googleusercontent.com" }  // Use the Android/iOS Client ID from Google Console
+            //};
+            //var payload = await GoogleJsonWebSignature.ValidateAsync(model.IdToken, settings);
+            
+            var email = jwtToken.Payload["email"].ToString();
+            var name = jwtToken.Payload["name"].ToString();
 
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)

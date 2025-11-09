@@ -19,13 +19,13 @@ namespace Wurd.Controllers
     [ApiController]
     [Route("api/wurd/[controller]")]
     [Authorize]
-    public class CustimizeApiController : ControllerBase
+    public class CustomizeApiController : ControllerBase
     {
         private readonly IApi _api;
         private readonly PageService _service;
 
 
-        public CustimizeApiController(IApi api, PageService service)
+        public CustomizeApiController(IApi api, PageService service)
         {
             _api = api;
             _service = service;
