@@ -98,6 +98,9 @@ public class AuthController : ControllerBase
 
                 // أضف صلاحيات API
                 await _userManager.AddToRoleAsync(user, "User");
+
+                // CRITICAL: Reload user with roles
+                user = await _userManager.FindByEmailAsync(email);
             }
 
             var token = GenerateJwtToken(user);
