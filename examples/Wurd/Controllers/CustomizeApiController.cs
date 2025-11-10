@@ -11,13 +11,14 @@ using System.Text;
 using Piranha.Manager.Services;
 using Piranha.Manager.Models;
 using Piranha.Models;
+using Piranha.Manager;
 
 
 namespace Wurd.Controllers
 {
 
     [ApiController]
-    [Route("api/wurd/[controller]")]
+    [Route("wurd/[controller]")]
     [Authorize]
     public class CustomizeApiController : ControllerBase
     {
@@ -63,6 +64,14 @@ namespace Wurd.Controllers
             }
 
             return Ok(result);
+
+        }
+        [HttpGet]
+        [Route("print-hello")]
+        public virtual async Task<IActionResult> print()
+        {
+
+            return Ok("hello");
 
         }
     }

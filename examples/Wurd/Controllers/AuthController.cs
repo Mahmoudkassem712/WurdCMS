@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.SqlServer.Server;
 using Google.Apis.Auth;
+using System.Data;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -46,8 +47,11 @@ public class AuthController : ControllerBase
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, "User"),
+            new Claim("role", "User")
         };
+
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

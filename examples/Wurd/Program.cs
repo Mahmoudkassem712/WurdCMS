@@ -107,12 +107,27 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Wurd API v1"));
 
-using (var scope = app.Services.CreateScope())
-{
-    var api = scope.ServiceProvider.GetRequiredService<IApi>();
-    App.Init(api);
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var api = scope.ServiceProvider.GetRequiredService<IApi>();
+//    App.Init(api);
+//}
 
+
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.StartsWithSegments("/wurd"))
+    {
+        var result = await context.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
+        if (!result.Succeeded)
+        {
+            context.Response.StatusCode = 401;
+            await context.Response.WriteAsync("Unauthorized");
+            return;
+        }
+    }
+    await next();
+});
 
 app.UseStaticFiles();
 
@@ -121,8 +136,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
-app.UseAuthentication();
-app.UseAuthorization();
+
 
 using (var scope = app.Services.CreateScope())
 {
@@ -139,20 +153,9 @@ using (var scope = app.Services.CreateScope())
 }
 EditorConfig.FromFile("editorconfig.json");
 
-app.Use(async (context, next) =>
-{
-    if (context.Request.Path.StartsWithSegments("/api/wurd"))
-    {
-        var result = await context.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
-        if (!result.Succeeded)
-        {
-            context.Response.StatusCode = 401;
-            await context.Response.WriteAsync("Unauthorized");
-            return;
-        }
-    }
-    await next();
-});
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UsePiranha(options =>
 {
