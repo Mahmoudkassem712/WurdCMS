@@ -19,7 +19,6 @@ namespace Wurd.Controllers
 
     [ApiController]
     [Route("wurd/[controller]")]
-    [Authorize]
     public class CustomizeApiController : ControllerBase
     {
         private readonly IApi _api;
@@ -32,7 +31,6 @@ namespace Wurd.Controllers
 
         // GET: api/dua/slug/adeya
         [HttpGet("slug/{slug}")]
-        [Authorize]
         public async Task<IActionResult> GetBySlug(string slug)
         {
             var page = await _api.Pages.GetBySlugAsync(slug);
@@ -68,6 +66,8 @@ namespace Wurd.Controllers
             return Ok(model);
 
         }
+
+        
 
         private async Task<List<PageListModel.PageItem>> GetPageStructure(Guid siteId)
         {
@@ -115,6 +115,13 @@ namespace Wurd.Controllers
                 model.Items.Add(MapRecursive(siteId, child, level + 1, expandedLevels, drafts));
             }
             return model;
+        }
+
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public virtual async Task<IActionResult> GetById(Guid id)
+        {
+            return Ok(await _api.Pages.GetByIdAsync<PageBase>(id));
         }
 
         [HttpPost]
