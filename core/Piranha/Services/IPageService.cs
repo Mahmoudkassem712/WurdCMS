@@ -231,4 +231,6 @@ public interface IPageService
     /// </summary>
     /// <param name="model">The comment</param>
     Task DeleteCommentAsync(Comment model);
+
+    Task<List<DynamicPage>> ChildPageList(Guid siteId, Guid pageId);
 }

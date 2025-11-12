@@ -1086,4 +1086,15 @@ internal sealed class PageService : IPageService
     {
         return model != null && model.Published.HasValue && model.Published.Value > DateTime.Now;
     }
+
+    public async Task<List<DynamicPage>> ChildPageList(Guid siteId, Guid pageId)
+    {
+        var sites = await _siteService.GetAllAsync();
+        var sitePages = await GetAllAsync(siteId);
+
+        var result = sitePages.Where(x => x.ParentId == pageId).ToList();
+
+        return result;
+    }
+
 }

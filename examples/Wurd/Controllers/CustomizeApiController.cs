@@ -76,12 +76,7 @@ namespace Wurd.Controllers
         [HttpGet]
         public async Task<IActionResult> ChildPageList(Guid siteId, Guid pageId)
         {
-            var sites = await _api.Sites.GetAllAsync();
-            var pages = new List<PageListModel.PageItem>();
-            var sitePages = await _api.Pages.GetAllAsync(siteId);
-
-           var result = sitePages.Where(x => x.ParentId == pageId).ToList();
-
+            var result = await _api.Pages.ChildPageList(siteId, pageId);
             return Ok(result);
         }
 
