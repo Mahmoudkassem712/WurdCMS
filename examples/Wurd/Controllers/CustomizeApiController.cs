@@ -67,7 +67,6 @@ namespace Wurd.Controllers
 
         }
 
-        
 
         private async Task<List<PageListModel.PageItem>> GetPageStructure(Guid siteId)
         {
@@ -92,6 +91,7 @@ namespace Wurd.Controllers
 
         private PageListModel.PageItem MapRecursive(Guid siteId, SitemapItem item, int level, int expandedLevels, IEnumerable<Guid> drafts)
         {
+
             var model = new PageListModel.PageItem
             {
                 Id = item.Id,
@@ -118,14 +118,14 @@ namespace Wurd.Controllers
         }
 
         [HttpGet]
-        [Route("{id:Guid}")]
+        [Route("get-page")]
         public virtual async Task<IActionResult> GetById(Guid id)
         {
             return Ok(await _api.Pages.GetByIdAsync<PageBase>(id));
         }
 
         [HttpPost]
-        [Route("GetPagesByIds")]
+        [Route("get-pages")]
         public virtual async Task<IActionResult> GetByIds(List<Guid> ids)
         {
             var result = new List<PageBase>();
@@ -146,37 +146,17 @@ namespace Wurd.Controllers
 
         }
 
-        //[Route("sites-list")]
-        //[HttpGet]
-        //public async Task<IActionResult> List()
-        //{
-        //    var sites = await _api.Sites.GetAllAsync();
-        //    var pages = new List<PageListModel.PageItem>();
+        [Route("child-pages-list")]
+        [HttpGet]
+        public async Task<IActionResult> ChildPageList(Guid siteId, Guid pageId)
+        {
+            var sites = await _api.Sites.GetAllAsync();
+            var pages = new List<PageListModel.PageItem>();
+            var sitePages = await _api.Pages.GetAllAsync(siteId);
 
-        //    foreach (var site in sites)
-        //    {
-        //        var sitePages = await _api.Pages.GetAllAsync(site.Id);
-        //        pages.AddRange(sitePages.Select(p => new PageListModel.PageItem
-        //        {
-        //            Id = p.Id,
-        //            Title = p.Title,
-        //            TypeName = p.TypeId,
-        //            SiteTitle = site.Title,
-        //            Permalink = p.Permalink
-        //        }));
-        //    }
+           var result = sitePages.Where(x => x.ParentId == pageId).ToList();
 
-        //    var model = new PageListModel
-        //    {
-        //        Sites = sites.Select(s => new PageListModel.SiteItem
-        //        {
-        //            Id = s.Id,
-        //            Title = s.Title
-        //        }).ToList(),
-        //        Pages = pages
-        //    };
-
-        //    return Ok(model);
-        //}
+            return Ok(result);
+        }
     }
 }
